@@ -1,0 +1,4 @@
+#/bin/bash
+sudo -v
+sudo docker stop core
+sudo systemctl stop docker

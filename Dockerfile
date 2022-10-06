@@ -37,6 +37,9 @@ RUN apt-get update && \
     wget \
     xauth \
     xterm \
+    wireshark \
+    dsniff \
+    netcat \
     && apt-get clean
 # install python dependencies
 RUN python3 -m pip install \
