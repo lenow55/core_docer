@@ -40,7 +40,11 @@ RUN apt-get update && \
     wireshark \
     dsniff \
     netcat \
+    traceroute \
+    tcpdump \
+    packeth \
     && apt-get clean
+
 # install python dependencies
 RUN python3 -m pip install \
     grpcio==1.27.2 \
