@@ -104,4 +104,9 @@ RUN wget -q https://adjacentlink.com/downloads/emane/emane-1.2.7-release-1.ubunt
     cd ../../../.. && \
     rm emane-1.2.7-release-1.ubuntu-20_04.amd64.tar.gz && \
     rm -rf emane-1.2.7-release-1
+
+RUN apt-get install -y --no-install-recommends \
+    nmap \
+    vim \
+    && apt-get clean
 CMD ["systemctl", "start", "core-daemon"]
