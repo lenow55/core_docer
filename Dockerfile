@@ -108,5 +108,7 @@ RUN wget -q https://adjacentlink.com/downloads/emane/emane-1.2.7-release-1.ubunt
 RUN apt-get install -y --no-install-recommends \
     nmap \
     vim \
+    arp-scan \
+    arping \
     && apt-get clean
 CMD ["systemctl", "start", "core-daemon"]
