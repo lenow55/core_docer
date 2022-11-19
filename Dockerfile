@@ -110,5 +110,24 @@ RUN apt-get install -y --no-install-recommends \
     vim \
     arp-scan \
     arping \
+    x11-xserver-utils \
+    locales \
     && apt-get clean
+RUN echo '\
+xterm*VT100.Translations: #override \\n\n\
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD)\n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)\n\
+XTerm.vt100.faceName: DejaVuSansMono\n\
+XTerm.vt100.faceSize: 12\n\
+XTerm.vt100.locale: true\n\
+XTerm.vt100.backarrowKey: false\n\
+XTerm.ttyModes: erase ^?\n\
+XTerm.vt100.scrollBar: true\n\
+XTerm.vt100.metaSendsEscape: true\n\
+' > ~/.Xresources && \
+    echo 'en_US.UTF-8 UTF-8\n\
+ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
+    locale-gen && \
+    echo /etc/default/locale > 'LANG=ru_RU.UTF-8'
+
 CMD ["systemctl", "start", "core-daemon"]
