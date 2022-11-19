@@ -43,3 +43,18 @@ capability to respond faster. Feel free to join us at the link below.
 
 * [Documentation](https://coreemu.github.io/core/)
 * [Discord Channel](https://discord.gg/AKd7kmP)
+
+## Docker setup
+I make some scripts for docker install and run.
+# clone this repo
+git clone https://github.com/lenow55/core_docer.git
+# setup docker on your system with dnf, pacman, apt
+# run install script
+cd core
+./setup_docker.sh
+# if it doesn't start, try: sudo chown +x setup_docker.sh
+# run core
+./start_legasy.sh
+or ./start.sh
+# if it doesn't start, try: sudo chown +x start.sh start_legasy.sh
+# if you want to stop container and docker, run ./stop.sh
