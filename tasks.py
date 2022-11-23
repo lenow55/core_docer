@@ -213,8 +213,8 @@ def install_poetry(c: Context, dev: bool, local: bool, hide: bool) -> None:
     python_bin = get_env_python()
     if local:
         with c.cd(DAEMON_DIR):
-            c.run("poetry build -f wheel", hide=hide)
-        c.run(f"sudo {python_bin} -m pip install dist/*")
+            c.run("poetry build -f sdist", hide=hide)
+            c.run(f"sudo {python_bin} -m pip install dist/*")
     else:
         args = "" if dev else "--no-dev"
         with c.cd(DAEMON_DIR):

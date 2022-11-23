@@ -5,8 +5,10 @@ LABEL Description="CORE Docker Ubuntu Image"
 # define variables
 ARG PREFIX=/usr/local
 ARG BRANCH=master
+#ARG BRANCH=docker_dev
 
 # define environment
+ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install basic dependencies
@@ -15,13 +17,18 @@ RUN apt-get update && \
 
 # install core
 WORKDIR /opt
-RUN git clone https://github.com/coreemu/core
+#COPY . core/
+RUN git clone https://github.com/lenow55/core_docer core
 WORKDIR /opt/core
-RUN git checkout ${BRANCH}
-RUN NO_SYSTEM=1 ./setup.sh
-RUN . /root/.bashrc && inv install -v -p ${PREFIX}
-ENV PATH "$PATH:/opt/core/venv/bin"
+#RUN git checkout ${BRANCH}
+#RUN NO_SYSTEM=1 ./setup.sh
+RUN ./setup.sh
+RUN . /root/.bashrc && inv install -v -d -l -p ${PREFIX}
+#ENV PATH "$PATH:/opt/core/venv/bin"
+ENV PATH "$PATH:/root/.local/bin"
 
+ENV PYTHON=python3
+ENV PYTHON_DEP=python3
 # install emane
 RUN apt-get install -y libpcap-dev libpcre3-dev libprotobuf-dev libxml2-dev protobuf-compiler uuid-dev
 WORKDIR /opt
@@ -31,7 +38,59 @@ RUN cd emane && \
   ./configure --prefix=/usr && \
   make -j$(nproc)  && \
   make install
-RUN /opt/core/venv/bin/python -m pip install emane/src/python
+RUN python3 -m pip install emane/src/python
+#RUN /opt/core/venv/bin/python -m pip install emane/src/python
+
+RUN apt-get install -y  \
+    xterm \
+    wireshark \
+    dsniff \
+    netcat \
+    traceroute \
+    tcpdump \
+    packeth \
+    systemctl \
+    iputils-ping \
+    ethtool \
+    nmap \
+    vim \
+    arp-scan \
+    arping \
+    x11-xserver-utils \
+    locales \
+    && apt-get clean
+
+RUN echo '\
+[Unit]\n\
+Description=Common Open Research Emulator Service\n\
+After=network.target\n\
+\n\
+[Service]\n\
+Type=simple\n\
+ExecStart=/usr/local/bin/core-daemon\n\
+TasksMax=infinity\n\
+\n\
+[Install]\n\
+WantedBy=multi-user.target\
+' > /lib/systemd/system/core-daemon.service
+
+RUN echo '\
+xterm*VT100.Translations: #override \\n\n\
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD)\n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)\n\
+XTerm.vt100.faceName: DejaVuSansMono\n\
+XTerm.vt100.faceSize: 12\n\
+XTerm.vt100.locale: true\n\
+XTerm.vt100.backarrowKey: false\n\
+XTerm.ttyModes: erase ^?\n\
+XTerm.vt100.scrollBar: true\n\
+XTerm.vt100.metaSendsEscape: true\n\
+' > ~/.Xresources && \
+    echo 'en_US.UTF-8 UTF-8\n\
+ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
+    locale-gen && \
+    echo /etc/default/locale > 'LANG=ru_RU.UTF-8'
 
 # run daemon
-CMD ["core-daemon"]
+#CMD ["core-daemon"]
+CMD ["systemctl", "start", "core-daemon"]
