@@ -5,5 +5,6 @@ sudo docker start core
 xhost +local:root
 # launch core-gui
 sleep 5
+#sudo docker exec -it core "xrdb ~/.Xresources"
 sudo docker exec -it core core-gui-legacy
 
