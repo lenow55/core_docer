@@ -91,6 +91,8 @@ ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     echo /etc/default/locale > 'LANG=ru_RU.UTF-8'
 
+RUN python3 -m pip install -U protobuf==3.20
+
 # run daemon
 #CMD ["core-daemon"]
 CMD ["systemctl", "start", "core-daemon"]

@@ -2,7 +2,7 @@
 sudo -v
 sudo systemctl start docker
 # build image
-sudo docker build -t core .
+sudo docker build -t core -f dockerfiles/Dockerfile.ubuntu .
 # run image
 # создаю папку для двухсторонней связи
 # с контейнером
