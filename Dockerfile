@@ -37,12 +37,6 @@ RUN apt-get update && \
     wget \
     xauth \
     xterm \
-    wireshark \
-    dsniff \
-    netcat \
-    traceroute \
-    tcpdump \
-    packeth \
     && apt-get clean
 
 # install python dependencies
@@ -107,12 +101,20 @@ RUN wget -q https://adjacentlink.com/downloads/emane/emane-1.2.7-release-1.ubunt
     rm -rf emane-1.2.7-release-1
 
 RUN apt-get install -y --no-install-recommends \
+    wireshark \
+    dsniff \
+    netcat \
+    traceroute \
+    tcpdump \
+    packeth \
     nmap \
     vim \
     arp-scan \
     arping \
     x11-xserver-utils \
     locales \
+    isc-dhcp-server \
+    isc-dhcp-client \
     && apt-get clean
 RUN echo '\
 xterm*VT100.Translations: #override \\n\n\
@@ -130,5 +132,7 @@ XTerm.vt100.metaSendsEscape: true\n\
 ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     echo /etc/default/locale > 'LANG=ru_RU.UTF-8'
+
+RUN systemctl enable isc-dhcp-server
 
 CMD ["systemctl", "start", "core-daemon"]
