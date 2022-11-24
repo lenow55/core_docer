@@ -51,7 +51,8 @@ RUN python3 -m pip install \
     grpcio-tools==1.27.2 \
     poetry==1.1.7
 # retrieve, build, and install core
-RUN wget -q -O ${CORE_TARBALL} https://api.github.com/repos/coreemu/core/tarball/${BRANCH} && \
+
+RUN wget -q -O ${CORE_TARBALL} https://github.com/coreemu/core/archive/refs/tags/release-8.2.0.tar.gz && \
     tar xf ${CORE_TARBALL} && \
     cd coreemu-core* && \
     ./bootstrap.sh && \
