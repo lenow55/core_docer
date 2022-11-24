@@ -48,7 +48,7 @@ RUN python3 -m pip install \
 
 RUN wget -q -O ${CORE_TARBALL} https://github.com/coreemu/core/archive/refs/tags/release-8.2.0.tar.gz && \
     tar xf ${CORE_TARBALL} && \
-    cd coreemu-core* && \
+    cd core-release* && \
     ./bootstrap.sh && \
     ./configure && \
     make -j $(nproc) && \
@@ -77,7 +77,7 @@ WantedBy=multi-user.target\
 ' > /lib/systemd/system/core-daemon.service && \
     cd ../.. && \
     rm ${CORE_TARBALL} && \
-    rm -rf coreemu-core*
+    rm -rf core-release*
 # retrieve, build, and install ospf mdr
 RUN wget -q -O ${OSPF_TARBALL} https://github.com/USNavalResearchLaboratory/ospf-mdr/tarball/master && \
     tar xf ${OSPF_TARBALL} && \
