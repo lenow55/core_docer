@@ -134,7 +134,6 @@ ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     echo 'LANG=ru_RU.UTF-8' > /etc/default/locale
 
-RUN xrdb ~/.Xresources
 RUN systemctl enable isc-dhcp-server
 
 CMD ["systemctl", "start", "core-daemon"]
