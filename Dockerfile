@@ -115,6 +115,7 @@ RUN apt-get install -y --no-install-recommends \
     locales \
     isc-dhcp-server \
     isc-dhcp-client \
+    dhcpdump \
     && apt-get clean
 RUN echo '\
 xterm*VT100.Translations: #override \\n\n\
@@ -131,8 +132,9 @@ XTerm.vt100.metaSendsEscape: true\n\
     echo 'en_US.UTF-8 UTF-8\n\
 ru_RU.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
-    echo /etc/default/locale > 'LANG=ru_RU.UTF-8'
+    echo 'LANG=ru_RU.UTF-8' > /etc/default/locale
 
+RUN xrdb ~/.Xresources
 RUN systemctl enable isc-dhcp-server
 
 CMD ["systemctl", "start", "core-daemon"]
