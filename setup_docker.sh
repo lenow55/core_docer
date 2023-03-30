@@ -16,7 +16,7 @@ else
     echo "$dirname Directory created"
 fi
 
-sudo docker run -itd --ulimit nofile=1024:3096
+sudo docker run -itd --ulimit nofile=1024:3096 \
     --name core -e DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v $dirname:/root/core_schema:rw \
